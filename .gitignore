@@ -1,0 +1,18 @@
+# ignore private files
+*.env
+*.local
+*.crt
+
+# common python ignores
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+*.lock
