@@ -1,35 +1,103 @@
-# Example Notebooks
 
-This repository includes example Jupyter notebooks to help you get started with the HODOR dataset and its Python interface. Below are summaries of the available notebooks and what you can learn from them:
+# 🐟🐍 HODOR Python API
 
-## 1. `download_data.ipynb`
-
-**Purpose:**
-- Demonstrates how to download data from the HODOR dataset using the provided Python API.
-- Shows how to create a dataset instance, download specific sequences, and manage local storage efficiently (files are not re-downloaded if they already exist).
-- Explains the hierarchical storage system of Pangaea and how the downloader handles files that need to be retrieved from tape storage.
-- Provides strategies for targeted downloading, such as identifying sequences with high activity for a particular species (e.g., cod) and downloading only those sequences.
-
-**Key Features:**
-- Safe, repeatable downloads (skips files already present)
-- Filtering and identifying interesting sequences based on species activity
-- Downloading only the data you need for your research
-
-## 2. `usage_examples.ipynb`
-
-**Purpose:**
-- Provides practical examples for loading and analyzing HODOR metadata and animal activity counts using pandas DataFrames.
-- Demonstrates common data analysis tasks, such as filtering, grouping, sorting, and plotting species counts.
-- Shows how to calculate new columns, aggregate data, and visualize results with pandas plotting functions.
-
-**Key Features:**
-- Loading and parsing HODOR tabular metadata
-- Filtering rows by species activity
-- Grouping and aggregating counts by date or other fields
-- Sorting and ranking sequences by length or species count
-- Creating new columns (e.g., sequence duration)
-- Summarizing and visualizing data with plots and pivot tables
+**A Python package for programmatic access, download, and analysis of the [HODOR dataset](https://github.com/TAWilts/HODOR).**
 
 ---
 
-For more details, open the notebooks in the `notebooks/` directory and follow the step-by-step code and explanations. These examples are a great starting point for your own analyses with the HODOR dataset.
+## About the HODOR Dataset
+
+HODOR (Hydroacoustic and Optical Dataset for Oceanic Research) is a large, open-access dataset of synchronized underwater stereo video and sonar recordings, with detailed animal activity counts. The main HODOR data repository and documentation are available at: [https://github.com/TAWilts/HODOR](https://github.com/TAWilts/HODOR)
+
+This package provides a convenient Python interface to access, download, and analyze HODOR data. It is installable via PyPI and designed for easy integration with pandas and scientific workflows.
+
+---
+
+## Features
+
+- Download HODOR activity counts, stereo video, and sonar data by sequence ID
+- Filter and analyze metadata and animal activity using pandas DataFrames
+- Download only the data you need (safe, repeatable, skips files already present)
+- Enum-based filtering for species
+- Simple API for targeted or bulk downloads
+
+---
+
+## Installation
+
+```bash
+pip install hodor-python
+```
+
+---
+
+## Quickstart
+
+```python
+from hodor_python import HODOR_Dataset, Species
+
+# Set a local folder for data storage
+hodor = HODOR_Dataset(dataset_folder="/path/to/hodor_data")
+
+# Access activity counts as a pandas DataFrame
+df = dataset.counts
+
+# Filter for sequences with high cod activity
+cod_sequences = df[df[Species.FISH_COD] > 0]
+
+# Download video and sonar for a specific sequence
+hodor.download_sequence(1)
+```
+
+For more in-depth examples using the API, have a look at: 
+
+https://github.com/TAWilts/HODOR/tree/main/meta/hodor_python
+
+
+---
+
+## API Overview
+
+### `HODOR_Dataset`
+
+- `HODOR_Dataset(dataset_folder: str)` – Main entry point. Manages local cache and access.
+- `.counts` – Returns a pandas DataFrame with sequence metadata and activity counts.
+- `.download_video(sequence_ids)` – Download stereo video for one or more sequence IDs.
+- `.download_sonar(sequence_ids)` – Download sonar data for one or more sequence IDs.
+- `.download_sequence(sequence_ids)` – Download both video and sonar for one or more sequence IDs.
+
+### `Species` Enum
+
+Use for filtering DataFrame columns by species (e.g., `Species.FISH_COD`).
+
+---
+
+## More Information
+
+- Main HODOR data repository: [https://github.com/TAWilts/HODOR](https://github.com/TAWilts/HODOR)
+- Data is hosted on [PANGAEA](https://doi.pangaea.de/10.1594/PANGAEA.980000), with DOIs for each subset.
+
+---
+
+## License
+
+See [LICENSE](LICENSE).
+
+---
+
+## Citation
+
+If you use HODOR in your research, please cite the main dataset as:
+
+```bibtex
+@ARTICLE{11121653,
+  author={Wilts, Thomas and Böer, Gordon and Winkler, Julian and Cisewski, Boris and Schramm, Hauke and Badri-Hoeher, Sabah},
+  journal={IEEE Data Descriptions}, 
+  title={Descriptor: Hydroacoustic and Optical Dataset for Oceanic Research (HODOR)}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-9},
+  keywords={Sonar;Cameras;Optical sensors;Optical imaging;Biomedical optical imaging;Fish;Optical recording;Acoustics;Synchronization;Sonar measurements},
+  doi={10.1109/IEEEDATA.2025.3596913}}
+```
