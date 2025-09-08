@@ -1,5 +1,5 @@
 
-# HODOR Python API
+# 🐟🐍 HODOR Python API
 
 **A Python package for programmatic access, download, and analysis of the [HODOR dataset](https://github.com/TAWilts/HODOR).**
 
