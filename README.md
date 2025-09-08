@@ -49,6 +49,11 @@ cod_sequences = df[df[Species.FISH_COD] > 0]
 hodor.download_sequence(1)
 ```
 
+For more in-depth examples using the API, have a look at: 
+
+https://github.com/TAWilts/HODOR/tree/main/meta/hodor_python/notebooks
+
+
 ---
 
 ## API Overview
