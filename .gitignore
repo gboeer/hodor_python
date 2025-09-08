@@ -3,6 +3,9 @@
 *.local
 *.crt
 
+# IDE files
+.code-workspace
+
 # common python ignores
 __pycache__/
 *.py[cod]
@@ -16,3 +19,4 @@ build/
 *.egg
 *.whl
 *.lock
+
