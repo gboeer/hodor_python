@@ -42,8 +42,16 @@ class HODOR_Dataset:
 
         # internally used pangaeapy datasets
         self._counts = PanDataSet(self.HODOR_COUNTS_DOI, cachedir=self.dataset_folder)
-        self._video_data = PanDataSet(self.HODOR_VIDEO_DOI, enable_cache=False, cachedir=self.dataset_folder.joinpath("Camera"))
-        self._sonar_data = PanDataSet(self.HODOR_SONAR_DOI, enable_cache=False, cachedir=self.dataset_folder.joinpath("Sonar"))
+        self._video_data = PanDataSet(
+            self.HODOR_VIDEO_DOI,
+            enable_cache=False,
+            cachedir=self.dataset_folder.joinpath("Camera"),
+        )
+        self._sonar_data = PanDataSet(
+            self.HODOR_SONAR_DOI,
+            enable_cache=False,
+            cachedir=self.dataset_folder.joinpath("Sonar"),
+        )
 
         self.counts: pd.DataFrame = self._load_dataframe()
 
@@ -57,7 +65,9 @@ class HODOR_Dataset:
         """
 
         # remove unused columns
-        df = self._counts.data.drop(columns=["Event", "Latitude", "Longitude", "Date/Time"])
+        df = self._counts.data.drop(
+            columns=["Event", "Latitude", "Longitude", "Date/Time"]
+        )
 
         # Convert datetime columns
         df["Date/time start"] = pd.to_datetime(df["Date/time start"])
@@ -98,6 +108,6 @@ class HODOR_Dataset:
         """
         if isinstance(sequence_ids, int):
             sequence_ids = [sequence_ids]
-            
+
         self.download_video(sequence_ids)
         self.download_sonar(sequence_ids)
