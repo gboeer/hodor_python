@@ -95,9 +95,9 @@ If you use HODOR in your research, please cite the main dataset as:
   journal={IEEE Data Descriptions}, 
   title={Descriptor: Hydroacoustic and Optical Dataset for Oceanic Research (HODOR)}, 
   year={2025},
-  volume={},
+  volume={2},
   number={},
-  pages={1-9},
-  keywords={Sonar;Cameras;Optical sensors;Optical imaging;Biomedical optical imaging;Fish;Optical recording;Acoustics;Synchronization;Sonar measurements},
+  pages={262-270},
+  keywords={Sonar;Cameras;Optical sensors;Optical imaging;Fish;Optical recording;Acoustics;Synchronization;Sonar measurements;Baltic Sea;camera;sonar;stereo camera},
   doi={10.1109/IEEEDATA.2025.3596913}}
 ```
