@@ -1,4 +1,6 @@
 
+[![PyPI](https://img.shields.io/pypi/v/hodor-python)](https://pypi.org/project/hodor-python/)
+
 # 🐟🐍 HODOR Python API
 
 **A Python package for programmatic access, download, and analysis of the [HODOR dataset](https://github.com/TAWilts/HODOR).**
@@ -25,6 +27,8 @@ This package provides a convenient Python interface to access, download, and ana
 
 ## Installation
 
+This package is available on PyPI. 
+
 ```bash
 pip install hodor-python
 ```
@@ -40,7 +44,7 @@ from hodor_python import HODOR_Dataset, Species
 hodor = HODOR_Dataset(dataset_folder="/path/to/hodor_data")
 
 # Access activity counts as a pandas DataFrame
-df = dataset.counts
+df = hodor.counts
 
 # Filter for sequences with high cod activity
 cod_sequences = df[df[Species.FISH_COD] > 0]
@@ -53,6 +57,35 @@ For more in-depth examples using the API, have a look at:
 
 https://github.com/TAWilts/HODOR/tree/main/meta/hodor_python
 
+---
+
+## CLI Usage
+
+The package installs a `hodor-python` command that mirrors the core API.
+
+```bash
+# List sequences (default columns)
+hodor-python list --limit 5
+
+# Show details for a specific sequences
+hodor-python info 1
+
+# Download video and sonar for specific sequences
+hodor-python download 1 2 3
+
+# Download only video or only sonar for a specific sequence
+hodor-python download 4 --video
+hodor-python download 5 --sonar
+
+# Export counts to a file
+hodor-python counts --output counts.csv
+```
+
+All commands accept `--dataset-folder` to set a custom cache location:
+
+```bash
+hodor-python --dataset-folder /path/to/hodor_data list --limit 5
+```
 
 ---
 
