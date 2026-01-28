@@ -1,8 +1,14 @@
 [project]
 name = "hodor-python"
-version = "1.0.1"
+version = "1.1.0"
 description = "Python API to access and download the HODOR dataset."
 readme = "README.md"
+keywords = ["Dataset", "Datasource", "Machine Learning", "Deep Learning", "Data Science", "Underwater Vision", "Underwater Camera", "Marine Science", "Sonar Data", "Stereo Vision", "PANGAEA", "Fishes", "Jellyfishes"]
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+maintainers = [
+  {name = "Gordon Böer"}
+]
 requires-python = ">=3.10"
 dependencies = [
     "pandas>=2.3.2",
@@ -11,11 +17,21 @@ dependencies = [
     "tqdm>=4.67.1",
 ]
 
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Scientists",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
 [project.scripts]
 hodor-python = "hodor_python:main"
 
 [project.urls]
 Homepage = "https://github.com/gboeer/hodor_python"
+Repository = "https://github.com/gboeer/hodor_python"
 Issues = "https://github.com/gboeer/hodor_python/issues"
 
 [build-system]
