@@ -4,6 +4,10 @@ from enum import Enum
 from pangaeapy import PanDataSet
 
 
+class HodorDataError(RuntimeError):
+    """Raised when HODOR data cannot be retrieved or processed."""
+
+
 class Species(str, Enum):
     """Enum for species in the HODOR dataset. Use it e.g. to filter data by species."""
 
@@ -53,7 +57,27 @@ class HODOR_Dataset:
             cachedir=self.dataset_folder.joinpath("Sonar"),
         )
 
-        self.counts: pd.DataFrame = self._load_dataframe()
+        self._counts_df: pd.DataFrame | None = None
+        self._counts_error: Exception | None = None
+
+    @property
+    def counts(self) -> pd.DataFrame:
+        if self._counts_df is not None:
+            return self._counts_df
+        if self._counts_error is not None:
+            raise HodorDataError(
+                "HODOR counts data failed to load. "
+                "Check network/SSL configuration or try again later."
+            ) from self._counts_error
+        try:
+            self._counts_df = self._load_dataframe()
+            return self._counts_df
+        except Exception as exc:  # noqa: BLE001 - surface friendly error to callers
+            self._counts_error = exc
+            raise HodorDataError(
+                "HODOR counts data failed to load. "
+                "Check network/SSL configuration or try again later."
+            ) from exc
 
     def _load_dataframe(self) -> pd.DataFrame:
         """
@@ -91,13 +115,25 @@ class HODOR_Dataset:
         """Downloads the video data for a single sequence id or a list of ids."""
         if isinstance(sequence_ids, int):
             sequence_ids = [sequence_ids]
-        self._video_data.download(sequence_ids)
+        try:
+            self._video_data.download(sequence_ids)
+        except Exception as exc:  # noqa: BLE001 - surface friendly error to callers
+            raise HodorDataError(
+                "HODOR video download failed. "
+                "Check network/SSL configuration or try again later."
+            ) from exc
 
     def download_sonar(self, sequence_ids: int | list[int]):
         """Downloads the sonar data for a single sequence id or a list of ids."""
         if isinstance(sequence_ids, int):
             sequence_ids = [sequence_ids]
-        self._sonar_data.download(sequence_ids)
+        try:
+            self._sonar_data.download(sequence_ids)
+        except Exception as exc:  # noqa: BLE001 - surface friendly error to callers
+            raise HodorDataError(
+                "HODOR sonar download failed. "
+                "Check network/SSL configuration or try again later."
+            ) from exc
 
     def download_sequence(self, sequence_ids: int | list[int]):
         """Downloads the complete data for a single sequence id or a list of ids.

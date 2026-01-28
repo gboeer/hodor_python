@@ -2,7 +2,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from hodor_python.dataset import HODOR_Dataset
+from hodor_python.dataset import HODOR_Dataset, HodorDataError
 
 
 DEFAULT_LIST_COLUMNS = [
@@ -107,16 +107,24 @@ def main(argv: list[str] | None = None) -> int:
     dataset = HODOR_Dataset(dataset_folder=Path(args.dataset_folder))
 
     if args.command == "download":
-        if args.video and not args.sonar:
-            dataset.download_video(args.sequence_ids)
-        elif args.sonar and not args.video:
-            dataset.download_sonar(args.sequence_ids)
-        else:
-            dataset.download_sequence(args.sequence_ids)
-        return 0
+        try:
+            if args.video and not args.sonar:
+                dataset.download_video(args.sequence_ids)
+            elif args.sonar and not args.video:
+                dataset.download_sonar(args.sequence_ids)
+            else:
+                dataset.download_sequence(args.sequence_ids)
+            return 0
+        except HodorDataError as exc:
+            print(str(exc), file=sys.stderr)
+            return 3
 
     if args.command == "list":
-        df = dataset.counts
+        try:
+            df = dataset.counts
+        except HodorDataError as exc:
+            print(str(exc), file=sys.stderr)
+            return 3
         columns = args.columns
         if columns is None:
             columns = DEFAULT_LIST_COLUMNS
@@ -131,7 +139,11 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "info":
-        df = dataset.counts
+        try:
+            df = dataset.counts
+        except HodorDataError as exc:
+            print(str(exc), file=sys.stderr)
+            return 3
         row = df[df["SeqID"] == args.sequence_id]
         if row.empty:
             print(f"Sequence {args.sequence_id} not found.", file=sys.stderr)
@@ -140,7 +152,11 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "counts":
-        df = dataset.counts
+        try:
+            df = dataset.counts
+        except HodorDataError as exc:
+            print(str(exc), file=sys.stderr)
+            return 3
         if args.output:
             output = Path(args.output)
             if args.format == "csv":
