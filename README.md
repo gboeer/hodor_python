@@ -1,5 +1,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hodor-python)](https://pypi.org/project/hodor-python/)
+[![Python](https://img.shields.io/pypi/pyversions/hodor-python)](https://pypi.org/project/hodor-python/)
+[![License](https://img.shields.io/pypi/l/hodor-python)](https://pypi.org/project/hodor-python/)
 
 # 🐟🐍 HODOR Python API
 
